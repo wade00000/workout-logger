@@ -5,7 +5,7 @@ class Workout(db.Model):
 
     id = db.Column(db.Integer,primary_key=True)
     timestamp = db.Column(db.DateTime)
-    routine_id = db.Column(db.ForeignKey('routines.id'))
+    routine_id = db.Column(db.ForeignKey('routines.id'),nullable=True)
     user_id = db.Column(db.ForeignKey('users.id'))
 
     routines = db.relationship("Routine",backref="workouts")
