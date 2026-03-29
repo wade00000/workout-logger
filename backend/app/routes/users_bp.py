@@ -1,6 +1,7 @@
 from flask import Blueprint,jsonify,request
 from app.models.user import User
 from app import bcrypt,db,jwt
+from flask_jwt_extended import create_access_token
 
 users_bp = Blueprint('users',__name__,url_prefix='/users')
 
@@ -56,7 +57,7 @@ def login_user():
     
     hash_check = bcrypt.check_password_hash(user.password_hash,password)
     if hash_check:
-        access_token = jwt.create_access_token(identity=user.id)
+        access_token = create_access_token(identity=str(user.id))
         return jsonify(access_token=access_token),200
     
     else:
