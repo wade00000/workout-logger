@@ -1,27 +1,26 @@
+import { login_user } from "../api/api"
 import { useState } from "react"
-import { register_user } from "../api/api"
-import {useNavigate,Link} from "react-router-dom"
 
-export default function RegisterPage(){
+
+export default function LoginPage(){
     const [username,setUsername] = useState("")
-    const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
 
-    const navigate = useNavigate()
+   
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         const data ={
             "username": username,
-            "email":email,
             "password":password
         }
 
-        await register_user(data)
-
-        navigate('/login')
+        const response = await login_user(data)
+        localStorage.setItem("access_token",response.access_token)
 
     }
+
+
     return(
         <div>
             <form onSubmit={handleSubmit}>
@@ -33,24 +32,12 @@ export default function RegisterPage(){
 
 
                 <div>
-                    <label htmlFor="email">Email: </label>
-                    <input type="email" id="email" required onChange={(e) => setEmail(e.target.value)} />
-                </div>
-
-
-                <div>
                     <label htmlFor="password">Password</label>
                     <input type="password" id="password" required onChange={(e) => setPassword(e.target.value)}/>
                 </div>
 
-                <div>
-                    <button type="submit">Sign Up</button>
-                   <Link to={'/login'}>
-                    <p>Login Instead</p>
-                   </Link>
                 
-                </div>
-                
+                <button type="submit">Log In</button>
 
             </form>
         </div>
