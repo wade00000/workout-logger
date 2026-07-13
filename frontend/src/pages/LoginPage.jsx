@@ -1,10 +1,14 @@
 import { login_user } from "../api/api"
 import { useState } from "react"
+import { useNavigate } from "react-router"
+
+
 
 
 export default function LoginPage(){
     const [username,setUsername] = useState("")
     const [password,setPassword] = useState("")
+    const navigate = useNavigate()
 
    
 
@@ -17,6 +21,7 @@ export default function LoginPage(){
 
         const response = await login_user(data)
         localStorage.setItem("access_token",response.access_token)
+        navigate("/")
 
     }
 
